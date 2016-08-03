@@ -1,13 +1,13 @@
-# Scala-json
+# Scalajson
 
-Scala-json is a very simple and low level library to manipulate JSON.
+Scalajson is a very simple and low level library to manipulate JSON.
 
 The code was inspired by the chapter 28 of Programming in Scala by M. Odersky et al.
 
 It is able to:
 
 - parse a string which represents a JSON Object and produce a `Map[String, Any]` ;
-- produce a string which respects JSON's style from a `Map[String, Any]`.
+- produce a string which respects JSON's syntax from a `Map[String, Any]`.
 
 ## License
 
