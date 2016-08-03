@@ -1,10 +1,10 @@
-import json.JSONParser
+import json.JsonParser
 
 package object json {
     implicit class MapFormatting(val m: Map[String, Any]) {
     	private def encode(value: Any, pretty: Boolean = false, offset: String = ""): String = value match {
 			case x: Map[String @unchecked, Any @unchecked] => 
-				if (pretty) x.toIndentedJSON(offset + '\t') else x.toJSON
+				if (pretty) x.toIndentedJson(offset + '\t') else x.toJson
 			case x: Seq[_] => "[" + (x mkString ", ") + "]"
 			case x: Array[_] => "[" + (x mkString ", ") + "]"
 			case x: Number => x.toString
@@ -13,20 +13,20 @@ package object json {
 			case x => "\"" + x.toString + "\""
     	}
 
-		def toJSON: String = {
+		def toJson: String = {
 	        val members = m map { case (key, value) => s""""$key": ${encode(value)}""" }
 	        "{" + (members mkString ", ") + "}"
 	    }
 
-	    def toIndentedJSON(offset: String = ""): String = {
+	    def toIndentedJson(offset: String = ""): String = {
 	    	val members = m map { case (key, value) => offset + "\t" + s""""$key": ${encode(value, true, offset)}""" }
 	        "{\n" + (members mkString ",\n") + "\n" + offset + "}"
 	    }
 
-		def toPrettyJSON: String = toIndentedJSON()
+		def toPrettyJson: String = toIndentedJson()
 	}
 
-	object JSON extends JSONParser {
+	object Json extends JsonParser {
 		def apply(s: String) = {
 			val tokens = new lexical.Scanner(s)
 			phrase(obj)(tokens).get

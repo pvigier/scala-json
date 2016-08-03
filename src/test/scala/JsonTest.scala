@@ -3,12 +3,12 @@ import org.scalatest._
 import json._
 
 
-class JSONSpec extends WordSpec {
+class JsonSpec extends WordSpec {
 
 	def jsonTest(json: String, expectedMap: Map[String, Any]) = {
 		json should {
 			"return " + expectedMap in {
-				assert(JSON(json) == expectedMap)
+				assert(Json(json) == expectedMap)
 			}
 		}
 	}
@@ -18,7 +18,7 @@ class JSONSpec extends WordSpec {
 			"not be parsed successfully" in {
 				assert(
 					try {
-						JSON(json)
+						Json(json)
 						false
 					} catch {
 						case e: Throwable => true
@@ -30,16 +30,16 @@ class JSONSpec extends WordSpec {
 
 	def jsonFormattingTest(m: Map[String, Any], expectedString: String) = {
 		m.toString should {
-			"produce JSON " + expectedString in {
-				assert(m.toJSON == expectedString)
+			"produce Json " + expectedString in {
+				assert(m.toJson == expectedString)
 			}
 		}
 	}
 
 	def jsonPrettyFormattingTest(m: Map[String, Any], expectedString: String) = {
 		m.toString should {
-			"produce pretty JSON " + expectedString in {
-				assert(m.toPrettyJSON == expectedString)
+			"produce pretty Json " + expectedString in {
+				assert(m.toPrettyJson == expectedString)
 			}
 		}
 	}
@@ -148,7 +148,7 @@ class JSONSpec extends WordSpec {
 	jsonFailureTest("""{"id": 32, "name": "John" "age": 45, "movies": [1, 2, 3]}""")
 
 	/*
-	 * Formatting (toJSON)
+	 * Formatting (toJson)
 	 */
 
 	jsonFormattingTest(Map(), "{}")
@@ -184,10 +184,10 @@ class JSONSpec extends WordSpec {
 	)
 
 	/*
-	 * Formatting (toPrettyJSON)
+	 * Formatting (toPrettyJson)
 	 */
 	jsonPrettyFormattingTest(Map(), "{\n\n}")
-	println(Map(("id", 32)).toJSON)
+	println(Map(("id", 32)).toJson)
 	jsonPrettyFormattingTest(Map(("id", 32)), "{\n\t\"id\": 32\n}")
 	jsonPrettyFormattingTest(Map(("id", -32)), "{\n\t\"id\": -32\n}")
 	jsonPrettyFormattingTest(Map(("size", 1.32)), "{\n\t\"size\": 1.32\n}")

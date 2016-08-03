@@ -2,7 +2,7 @@ package json
 
 import scala.util.parsing.combinator.syntactical._
 
-class JSONParser extends StandardTokenParsers {
+class JsonParser extends StandardTokenParsers {
 	lexical.delimiters += ("{", "}", "[", "]", ":", ",", ".", "+", "-")
 	lexical.reserved += ("null", "true", "false")
 
