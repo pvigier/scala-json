@@ -2,6 +2,8 @@ package json
 
 import scala.util.parsing.combinator.syntactical._
 
+class JsonException(message: String) extends Exception(message)
+
 class JsonParser extends StandardTokenParsers {
 	lexical.delimiters += ("{", "}", "[", "]", ":", ",", ".", "+", "-")
 	lexical.reserved += ("null", "true", "false")

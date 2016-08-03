@@ -21,7 +21,7 @@ class JsonSpec extends WordSpec {
 						json.toObject
 						false
 					} catch {
-						case e: Throwable => true
+						case e: JsonException => true
 					}
 				)
 			}
@@ -186,8 +186,8 @@ class JsonSpec extends WordSpec {
 	/*
 	 * Formatting (toPrettyJson)
 	 */
+	 
 	jsonPrettyFormattingTest(Map(), "{\n\n}")
-	println(Map(("id", 32)).toJson)
 	jsonPrettyFormattingTest(Map(("id", 32)), "{\n\t\"id\": 32\n}")
 	jsonPrettyFormattingTest(Map(("id", -32)), "{\n\t\"id\": -32\n}")
 	jsonPrettyFormattingTest(Map(("size", 1.32)), "{\n\t\"size\": 1.32\n}")

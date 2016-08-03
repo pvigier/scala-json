@@ -30,8 +30,12 @@ package object json {
 
 	implicit class StringImprovements(val s: String) {
 		def toObject: Map[String, Any] = {
-			val tokens = new parser.lexical.Scanner(s)
-			parser.phrase(parser.obj)(tokens).get
+			try {
+				val tokens = new parser.lexical.Scanner(s)
+				parser.phrase(parser.obj)(tokens).get
+			} catch {
+				case e: Exception => throw new JsonException(e.getMessage)
+			}
 		}
 	}
 }
