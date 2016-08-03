@@ -1,7 +1,7 @@
 import json.JsonParser
 
 package object json {
-    implicit class MapFormatting(val m: Map[String, Any]) {
+    implicit class MapImprovements(val m: Map[String, Any]) {
     	private def encode(value: Any, pretty: Boolean = false, offset: String = ""): String = value match {
 			case x: Map[String @unchecked, Any @unchecked] => 
 				if (pretty) x.toIndentedJson(offset + '\t') else x.toJson
@@ -26,10 +26,12 @@ package object json {
 		def toPrettyJson: String = toIndentedJson()
 	}
 
-	object Json extends JsonParser {
-		def apply(s: String) = {
-			val tokens = new lexical.Scanner(s)
-			phrase(obj)(tokens).get
+	private val parser = new JsonParser
+
+	implicit class StringImprovements(val s: String) {
+		def toObject: Map[String, Any] = {
+			val tokens = new parser.lexical.Scanner(s)
+			parser.phrase(parser.obj)(tokens).get
 		}
 	}
 }

@@ -8,7 +8,7 @@ class JsonSpec extends WordSpec {
 	def jsonTest(json: String, expectedMap: Map[String, Any]) = {
 		json should {
 			"return " + expectedMap in {
-				assert(Json(json) == expectedMap)
+				assert(json.toObject == expectedMap)
 			}
 		}
 	}
@@ -18,7 +18,7 @@ class JsonSpec extends WordSpec {
 			"not be parsed successfully" in {
 				assert(
 					try {
-						Json(json)
+						json.toObject
 						false
 					} catch {
 						case e: Throwable => true

@@ -21,7 +21,7 @@ Few examples using the REPL:
 scala> import json._
 import json._
 
-scala> JSON("""{"id": 1, "name": "John", "items": [1, 2, 3], "address": {"country": "USA", "state": "DC"}}""")
+scala> """{"id": 1, "name": "John", "items": [1, 2, 3], "address": {"country": "USA", "state": "DC"}}""".toObject
 res1: Map[String,Any] = Map(id -> 1, name -> John, items -> List(1, 2, 3), address -> Map(country -> USA, state -> DC))
 
 scala> Map("id" -> 1, "name" -> "John", "items" -> List(1, 2, 3), "address" -> Map("country" -> "USA", "state" -> "DC")).toJSON
