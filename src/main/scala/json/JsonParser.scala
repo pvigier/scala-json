@@ -8,7 +8,7 @@ class JsonParser extends StandardTokenParsers {
 	lexical.delimiters += ("{", "}", "[", "]", ":", ",", ".", "+", "-")
 	lexical.reserved += ("null", "true", "false")
 
-	def obj: Parser[Map[String, Any]] =
+	def obj: Parser[JsonObject] =
 		"{" ~> repsep(member, ",") <~ "}" ^^ (Map() ++ _)
 
 	def arr: Parser[List[Any]] =
