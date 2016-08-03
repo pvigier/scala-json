@@ -5,6 +5,22 @@ import json._
 
 class JsonSpec extends WordSpec {
 
+	def isObjTest(m: Map[_, _], expected: Boolean) = {
+		"isObj(" + m + ")" should {
+			"return " + expected in {
+				assert(isObj(m) == expected)
+			}
+		}
+	}
+
+	def isObjSeqTest(seq: Seq[_], expected: Boolean) = {
+		"isObjSeq(" + seq + ")" should {
+			"return " + expected in {
+				assert(isObjSeq(seq) == expected)
+			}
+		}
+	}
+
 	def jsonTest(json: String, expectedMap: Map[String, Any]) = {
 		json should {
 			"return " + expectedMap in {
@@ -43,6 +59,23 @@ class JsonSpec extends WordSpec {
 			}
 		}
 	}
+
+	/*
+	 * isObj and isObjSeq
+	 */
+
+	isObjTest(Map(), true)
+	isObjTest(Map(("id", 32), ("price", 9.99)), true)
+	isObjTest(Map((32, 45)), false)
+	isObjTest(Map(("id", 32), (32, 45)), false)
+
+	isObjSeqTest(List(), false)
+	isObjSeqTest(List(Map(("id", 32))), true)
+	isObjSeqTest(Array(Map(("id", 32))), true)
+	isObjSeqTest(List("id"), false)
+	isObjSeqTest(Array("id"), false)
+	isObjSeqTest(List(Map(("id", 32)), "id"), false)
+	isObjSeqTest(Array(Map(("id", 32)), "id"), false)
 
 	/*
 	 * Simple tests
@@ -104,6 +137,13 @@ class JsonSpec extends WordSpec {
 			)
 		)
 	)
+
+	/*
+	 * List of objects
+	 */
+
+	jsonTest("""{"objects": [{"id": 1}, {"id": 2}, {"id": 3}]}""",
+		Map("objects" -> List(Map("id" -> 1), Map("id" -> 2), Map("id" -> 3))))
 
 	/*
 	 * Poorly indented objects
@@ -182,6 +222,10 @@ class JsonSpec extends WordSpec {
 		),
 		"""{"user": {"id": 32, "name": "John", "age": 45, "address": {"country": "USA", "state": "DC"}}, "book": {"title": "Foundation", "price": 9.99}}"""
 	)
+	jsonFormattingTest(Map("objects" -> List(Map("id" -> 1), Map("id" -> 2), Map("id" -> 3))),
+		"""{"objects": [{"id": 1}, {"id": 2}, {"id": 3}]}""")
+	jsonFormattingTest(Map("objects" -> Array(Map("id" -> 1), Map("id" -> 2), Map("id" -> 3))),
+		"""{"objects": [{"id": 1}, {"id": 2}, {"id": 3}]}""")
 
 	/*
 	 * Formatting (toPrettyJson)
@@ -219,5 +263,13 @@ class JsonSpec extends WordSpec {
 		"{\n\t\"user\": {\n\t\t\"id\": 32,\n\t\t\"name\": \"John\",\n\t\t\"age\": 45,\n\t\t" +
 		"\"address\": {\n\t\t\t\"country\": \"USA\",\n\t\t\t\"state\": \"DC\"\n\t\t}\n\t},\n\t" + 
 		"\"book\": {\n\t\t\"title\": \"Foundation\",\n\t\t\"price\": 9.99\n\t}\n}"
+	)
+	jsonPrettyFormattingTest(Map("objects" -> List(Map("id" -> 1), Map("id" -> 2), Map("id" -> 3))),
+		"{\n\t\"objects\": [\n\t\t{\n\t\t\t\"id\": 1\n\t\t}," +
+		"\n\t\t{\n\t\t\t\"id\": 2\n\t\t},\n\t\t{\n\t\t\t\"id\": 3\n\t\t}\n\t]\n}"
+	)
+	jsonPrettyFormattingTest(Map("objects" -> Array(Map("id" -> 1), Map("id" -> 2), Map("id" -> 3))),
+		"{\n\t\"objects\": [\n\t\t{\n\t\t\t\"id\": 1\n\t\t}," +
+		"\n\t\t{\n\t\t\t\"id\": 2\n\t\t},\n\t\t{\n\t\t\t\"id\": 3\n\t\t}\n\t]\n}"
 	)
 }
